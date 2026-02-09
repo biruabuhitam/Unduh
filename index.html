@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IndoStream - Professional Downloader</title>
+    <title>IndoStream v4 - SaveFrom Mirror Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -13,103 +13,93 @@
             background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 100%);
             min-height: 100vh;
         }
-        .id-gradient {
-            background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-        }
+        .id-gradient { background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); }
+        .savefrom-gradient { background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
-        .btn-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-result { animation: slideUp 0.4s ease-out forwards; }
+        .card-anim { animation: fadeInUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-slate-900 antialiased">
 
     <nav class="max-w-6xl mx-auto p-6 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <div class="w-11 h-11 id-gradient rounded-2xl flex items-center justify-center shadow-lg shadow-red-200">
-                <i data-lucide="zap" class="text-white w-6 h-6"></i>
+            <div class="w-11 h-11 id-gradient rounded-2xl flex items-center justify-center shadow-lg">
+                <i data-lucide="download" class="text-white w-6 h-6"></i>
             </div>
-            <div>
-                <h1 class="text-xl font-extrabold leading-none">Indo<span class="text-red-600">Stream</span></h1>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Downloader Pro</p>
-            </div>
+            <h1 class="text-xl font-extrabold tracking-tight">Indo<span class="text-red-600">Stream</span> <span class="text-[10px] bg-green-600 text-white px-2 py-0.5 rounded-full ml-1">v4</span></h1>
         </div>
-        <div class="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 shadow-sm">
-            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span class="text-xs font-bold text-slate-600">Cobalt API V10 Active</span>
+        
+        <div class="flex items-center gap-2">
+            <div class="hidden md:block text-[10px] font-bold text-slate-400 uppercase tracking-widest mr-2">API Status:</div>
+            <select id="serverSelect" class="bg-white border border-slate-200 text-[11px] font-bold py-2 px-3 rounded-xl outline-none shadow-sm focus:ring-2 focus:ring-red-500">
+                <option value="https://api.cobalt.tools/api/json">🟢 Server Utama (Cobalt)</option>
+                <option value="https://cobalt.perisic.com/api/json">🔵 Mirror 1 (Stable)</option>
+                <option value="https://api.cobalt.rocks/api/json">🟡 Mirror 2 (Fast)</option>
+            </select>
         </div>
     </nav>
 
     <main class="max-w-4xl mx-auto px-6 pt-10 pb-20">
-        <div class="text-center mb-12">
-            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
-                Unduh Konten Media <br>
-                <span class="text-transparent bg-clip-text id-gradient italic">Tanpa Iklan & Gratis.</span>
-            </h2>
-            <p class="text-slate-500 font-medium">Cukup tempel link YouTube, pilih format, dan simpan ke perangkat Anda.</p>
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-extrabold mb-3 tracking-tight">Satu Aplikasi, <span class="text-red-600 italic">Berbagai Jalur.</span></h2>
+            <p class="text-slate-500 font-medium">Jika satu server macet, mirror SaveFrom siap membantu Anda.</p>
         </div>
 
-        <div class="glass-panel p-3 rounded-3xl shadow-2xl mb-12 flex flex-col md:flex-row gap-3">
+        <div class="glass-panel p-3 rounded-3xl shadow-2xl mb-12 flex flex-col md:flex-row gap-3 border border-white">
             <div class="flex-1 flex items-center px-4 gap-3">
-                <i data-lucide="link" class="text-slate-400 w-5 h-5"></i>
-                <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." 
-                    class="w-full py-4 bg-transparent outline-none text-lg font-medium placeholder:text-slate-300" />
+                <i data-lucide="link-2" class="text-red-600 w-5 h-5"></i>
+                <input type="text" id="videoUrl" placeholder="Masukkan link YouTube..." 
+                    class="w-full py-4 bg-transparent outline-none text-lg font-medium" />
             </div>
             <button onclick="analyzeVideo()" id="btnAnalyze"
-                class="id-gradient text-white px-10 py-4 rounded-2xl font-bold btn-hover flex items-center justify-center gap-2">
-                <i data-lucide="search" class="w-5 h-5"></i>
-                Analisis
+                class="id-gradient text-white px-10 py-4 rounded-2xl font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
+                <i data-lucide="zap" class="w-5 h-5"></i> Analisis Video
             </button>
         </div>
 
         <div id="loader" class="hidden text-center py-10">
-            <div class="inline-block w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="mt-4 font-bold text-slate-400">Menghubungkan ke Server...</p>
+            <div class="inline-block w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-4 font-bold text-slate-400 animate-pulse">Menghubungkan ke satelit downloader...</p>
         </div>
 
-        <div id="resultArea" class="hidden">
-            <div class="glass-panel rounded-[2rem] overflow-hidden shadow-2xl animate-result border border-white">
+        <div id="resultArea" class="hidden card-anim">
+            <div class="glass-panel rounded-[2.5rem] overflow-hidden shadow-2xl border border-white">
                 <div class="md:flex">
-                    <div class="md:w-5/12 relative group overflow-hidden bg-slate-200">
-                        <img id="metaThumb" src="" alt="Thumbnail" class="w-full h-full object-cover aspect-video md:aspect-square group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute top-4 left-4">
-                            <button onclick="downloadThumbnail()" class="bg-black/50 backdrop-blur-md text-white px-4 py-2 rounded-xl text-xs font-bold border border-white/20 flex items-center gap-2 hover:bg-red-600 transition-colors">
-                                <i data-lucide="image" class="w-4 h-4"></i> Thumbnail HD
-                            </button>
+                    <div class="md:w-5/12 relative">
+                        <img id="metaThumb" src="" alt="Thumbnail" class="w-full h-full object-cover aspect-video md:aspect-square">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+                            <h3 id="metaTitle" class="text-white font-bold leading-tight">Judul Video</h3>
                         </div>
                     </div>
                     
-                    <div class="md:w-7/12 p-8 md:p-12 flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="px-3 py-1 bg-red-100 text-red-600 text-[10px] font-black uppercase rounded-full">YouTube Verified</span>
+                    <div class="md:w-7/12 p-8 md:p-12 flex flex-col justify-center">
+                        <p id="metaAuthor" class="text-red-600 font-black text-[10px] uppercase tracking-[0.3em] mb-4">Verified Channel</p>
+                        
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-3">
+                                <button onclick="startDownload('video')" class="id-gradient text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-red-200 hover:shadow-xl transition-all">
+                                    <i data-lucide="download" class="w-5 h-5"></i> Video MP4
+                                </button>
+                                <button onclick="startDownload('audio')" class="bg-slate-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-slate-400 hover:shadow-xl transition-all">
+                                    <i data-lucide="music" class="w-5 h-5"></i> Audio MP3
+                                </button>
                             </div>
-                            <h3 id="metaTitle" class="text-2xl font-extrabold leading-tight mb-3">Judul Video</h3>
-                            <p id="metaAuthor" class="text-slate-500 font-semibold flex items-center gap-2">
-                                <i data-lucide="circle-user" class="w-5 h-5 text-red-500"></i> Nama Channel
-                            </p>
-                        </div>
 
-                        <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button onclick="startDownload('video')" class="id-gradient text-white py-4 rounded-2xl font-bold btn-hover flex items-center justify-center gap-3">
-                                <i data-lucide="film" class="w-5 h-5"></i> Simpan Video
+                            <div class="relative py-4">
+                                <div class="absolute inset-0 flex items-center"><span class="w-full border-t border-slate-200"></span></div>
+                                <div class="relative flex justify-center text-xs uppercase"><span class="bg-white px-3 text-slate-400 font-bold tracking-widest">Atau Gunakan Mirror</span></div>
+                            </div>
+
+                            <button onclick="mirrorToSaveFrom()" class="w-full savefrom-gradient text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:scale-[1.02] transition-all shadow-lg">
+                                <i data-lucide="external-link" class="w-5 h-5"></i> Jalur SaveFrom.net (Super Stable)
                             </button>
-                            <button onclick="startDownload('audio')" class="bg-slate-900 text-white py-4 rounded-2xl font-bold btn-hover flex items-center justify-center gap-3">
-                                <i data-lucide="music-4" class="w-5 h-5"></i> Simpan Audio
-                            </button>
+                            
+                            <p class="text-[10px] text-center text-slate-400 font-medium">Gunakan SaveFrom jika tombol MP4 di atas tidak merespon.</p>
                         </div>
                     </div>
                 </div>
@@ -119,84 +109,69 @@
 
     <script>
         lucide.createIcons();
+        let currentUrl = "";
 
-        let activeUrl = "";
-
-        // Fungsi mendapatkan data Video via oEmbed
         async function analyzeVideo() {
             const input = document.getElementById('videoUrl').value.trim();
-            if (!input) return alert('Masukkan URL terlebih dahulu!');
+            if (!input) return alert("Link kosong!");
 
             const btn = document.getElementById('btnAnalyze');
             const loader = document.getElementById('loader');
             const resultArea = document.getElementById('resultArea');
 
-            // Reset UI
             btn.disabled = true;
             resultArea.classList.add('hidden');
             loader.classList.remove('hidden');
 
             try {
-                const response = await fetch(`https://www.youtube.com/oembed?url=${input}&format=json`);
-                if (!response.ok) throw new Error('Video tidak ditemukan');
+                const res = await fetch(`https://www.youtube.com/oembed?url=${input}&format=json`);
+                const data = await res.json();
                 
-                const data = await response.json();
-                
-                document.getElementById('metaTitle').textContent = data.title;
-                document.getElementById('metaAuthor').textContent = data.author_name;
+                document.getElementById('metaTitle').innerText = data.title;
+                document.getElementById('metaAuthor').innerText = data.author_name;
                 document.getElementById('metaThumb').src = data.thumbnail_url;
-                activeUrl = input;
-
+                
+                currentUrl = input;
                 loader.classList.add('hidden');
                 resultArea.classList.remove('hidden');
-            } catch (err) {
-                alert('Gagal mengambil data video. Pastikan link benar.');
+                lucide.createIcons();
+            } catch (e) {
+                alert("Gagal memuat video. Coba cek link YouTube Anda.");
                 loader.classList.add('hidden');
             } finally {
                 btn.disabled = false;
             }
         }
 
-        // Fungsi Download Real Menggunakan Cobalt API
         async function startDownload(mode) {
             const btn = event.currentTarget;
             const originalHTML = btn.innerHTML;
+            const selectedServer = document.getElementById('serverSelect').value;
 
             btn.disabled = true;
-            btn.innerHTML = `<i data-lucide="refresh-cw" class="w-5 h-5 animate-spin"></i> Menyiapkan...`;
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>`;
             lucide.createIcons();
 
             try {
-                // Cobalt API V10 Payload
-                const response = await fetch('https://api.cobalt.tools/api/json', {
+                const response = await fetch(selectedServer, {
                     method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        url: activeUrl,
-                        downloadMode: mode, // 'video' atau 'audio'
+                        url: currentUrl,
+                        downloadMode: mode,
                         videoQuality: '720',
-                        youtubeVideoCodec: 'h264', // Paling kompatibel untuk HP/PC
-                        filenamePattern: 'pretty'
+                        youtubeVideoCodec: 'h264'
                     })
                 });
 
                 const result = await response.json();
-
-                if (result.status === 'stream' || result.status === 'redirect' || result.url) {
-                    // Gunakan window.location untuk memicu proses download file asli
+                if (result.url) {
                     window.location.href = result.url;
-                } else if (result.status === 'error') {
-                    throw new Error(result.text || 'Gagal dari server Cobalt');
                 } else {
-                    throw new Error('Respon server tidak dikenal');
+                    throw new Error("Limit");
                 }
-
             } catch (err) {
-                console.error(err);
-                alert('Server Cobalt sedang sibuk atau limit tercapai. Silakan coba lagi dalam beberapa detik.');
+                alert("Server API penuh. Silakan klik tombol hijau 'SaveFrom.net' di bawah.");
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = originalHTML;
@@ -204,12 +179,11 @@
             }
         }
 
-        // Fungsi Download Thumbnail
-        function downloadThumbnail() {
-            const thumbUrl = document.getElementById('metaThumb').src;
-            // Mengubah hqdefault menjadi maxresdefault secara paksa untuk kualitas HD
-            const hdUrl = thumbUrl.replace('hqdefault.jpg', 'maxresdefault.jpg');
-            window.open(hdUrl, '_blank');
+        // LOGIKA MIRROR SAVEFROM
+        function mirrorToSaveFrom() {
+            // Teknik sfrom.net/ adalah cara tercepat untuk redirect ke SaveFrom
+            const saveFromUrl = `https://sfrom.net/${currentUrl}`;
+            window.open(saveFromUrl, '_blank');
         }
     </script>
 </body>
